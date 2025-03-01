@@ -599,12 +599,11 @@ async def main_async(api_key, operations, endpoints, tag, template_only=False, t
     async with meraki.aio.AsyncDashboardAPI(
         api_key, 
         base_url='https://api.gov-meraki.com/api/v1',
-        maximum_concurrent_requests=1,
         maximum_retries=5,
-        single_request_timeout=120,
+        single_request_timeout=60,
         wait_on_rate_limit=True,
-        print_console=True,
-        suppress_logging=False
+        print_console=False,
+        suppress_logging=True
     ) as dashboard:
         if template_only:
             # Process templates only
@@ -693,6 +692,9 @@ def estimate_backup(api_key, org_id, filter_tag, template_only=False, template_n
         m = meraki.DashboardAPI(
             api_key=api_key,
             base_url='https://api.gov-meraki.com/api/v1',
+            maximum_retries=5,
+            single_request_timeout=60,
+            wait_on_rate_limit=True,
             print_console=False,
             suppress_logging=True
         )
